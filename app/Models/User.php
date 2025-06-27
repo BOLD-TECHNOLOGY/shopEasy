@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Enums\Roles;
+
 
 class User extends Authenticatable
 {
@@ -22,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,7 +47,21 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => Roles::class,
         ];
+    }
+
+    public function getDashboardRoute(): string
+    {
+        return match($this->role) {
+            Roles::Admin => route('admin.dashboard'),
+            Roles::User => route('dashboard'),
+            Roles::Blogger => route('blogger.dashboard'),
+            Roles::Vendor => route('vendor.dashboard'),
+            Roles::Customer => route('customer.dashboard'),
+
+            default => route('login'),
+        };
     }
 
     /**
