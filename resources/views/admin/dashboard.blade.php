@@ -1,8 +1,7 @@
 <x-layouts.app :title="__('Dashboard')">
-    <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">{{ __('Admin Dashboard') }}</flux:heading>
-        <flux:subheading size="lg" class="mb-6">{{ __('System Management') }}</flux:subheading>
-        <flux:separator variant="subtle" />
+    <div class="d _dashboard-header">
+        <h1>Welcome {{ auth()->user()->name }}</h1>
+        <p><span>{{ auth()->user()->role }}</span> dashboard</p>
     </div>
 
     @session('success')
