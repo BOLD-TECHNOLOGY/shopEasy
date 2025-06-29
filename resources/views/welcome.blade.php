@@ -253,5 +253,4 @@
 
 @include ('shop-easy.includes.contact')
 @include ('shop-easy.includes.footer')
-
         
