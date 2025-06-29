@@ -64,15 +64,18 @@ class User extends Authenticatable
         };
     }
 
-    /**
-     * Get the user's initials
+     /**
+     * Get the user's initials.
+     *
+     * @return string|null
      */
-    public function initials(): string
+    public function getInitialsAttribute()
     {
-        return Str::of($this->name)
-            ->explode(' ')
-            ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
-            ->implode('');
+        $names = explode(' ', $this->name);
+        $initials = '';
+        foreach ($names as $name) {
+            $initials .= strtoupper(substr($name, 0, 1));
+        }
+        return $initials;
     }
 }
