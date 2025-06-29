@@ -4,129 +4,194 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+        <div class="_sidebar mobile-header">
+            <button class="_sidebar mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="_sidebar mobile-profile">
+                <button class="_sidebar mobile-profile-btn" id="mobileProfileBtn">
+                    <div class="_sidebar mobile-profile-avatar"><h4>{{ auth()->user()->initials }}</h4></div>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="_sidebar mobile-profile-dropdown" id="mobileProfileDropdown">
+                    <div class="_sidebar dropdown-item">
+                        <div class="_sidebar mobile-profile-avatar"><h4>{{ auth()->user()->initials }}</h4></div>
+                        <div>
+                            <div class="_sidebar profile-name"><h4>{{ auth()->user()->name }}</h4></div>
+                            <div class="_sidebar profile-email"><p>{{ auth()->user()->email }}</p></div>
+                        </div>
+                    </div>
+                    <div class="_sidebar dropdown-divider"></div>
+                    <a href="#" class="_sidebar dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <div class="_sidebar dropdown-divider"></div>
+                    <button class="_sidebar dropdown-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-                <x-app-logo />
-            </a>
+        <!-- Mobile Overlay -->
+        <div class="_sidebar mobile-overlay" id="mobileOverlay"></div>
 
-            <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                </flux:navlist.group>
-            </flux:navlist>
+        <!-- Sidebar -->
+        <nav class="_sidebar sidebar" id="sidebar">
+            <div class="_sidebar sidebar-header">
+                <a href="#" class="_sidebar logo">
+                    <i class="fas fa-cube"></i>
+                    <span class="_sidebar logo-text">shopEasy</span>
+                </a>
+                <button class="_sidebar sidebar-toggle d-none d-lg-block" id="sidebarToggle">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
 
-            <flux:spacer />
+            <div class="_sidebar nav-section">
+                <div class="_sidebar nav-section-title">Platform</div>
+                <ul class="_sidebar nav-list">
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link active" data-tooltip="Dashboard">
+                            <i class="fas fa-home"></i>
+                            <span class="_sidebar nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
+            @if (auth()->user()->role === App\Enums\Roles::Admin)
 
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist>
+            <div class="_sidebar nav-section admin-section">
+                <ul class="_sidebar nav-list">
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Products">
+                            <i class="fas fa-box"></i>
+                            <span class="_sidebar nav-text">Products</span>
+                        </a>
+                    </li>
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Subscribers">
+                            <i class="fas fa-users"></i>
+                            <span class="_sidebar nav-text">Subscribers</span>
+                        </a>
+                    </li>
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Users">
+                            <i class="fas fa-user-friends"></i>
+                            <span class="_sidebar nav-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Posts">
+                            <i class="fas fa-file-alt"></i>
+                            <span class="_sidebar nav-text">Posts</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-            <!-- Desktop User Menu -->
-            <flux:dropdown class="hidden lg:block" position="bottom" align="start">
-                <flux:profile
-                    :name="auth()->user()->name"
-                    :initials="auth()->user()->initials()"
-                    icon:trailing="chevrons-up-down"
-                />
+            @endif
 
-                <flux:menu class="w-[220px]">
-                    <flux:menu.radio.group>
-                        <div class="p-0 text-sm font-normal">
-                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
-                                        {{ auth()->user()->initials() }}
-                                    </span>
-                                </span>
+            @if (auth()->user()->role === App\Enums\Roles::User)
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+            <div class="_sidebar nav-section user-section" style="display: none;">
+                <ul class="_sidebar nav-list">
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Profile">
+                            <i class="fas fa-user"></i>
+                            <span class="_sidebar nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Account">
+                            <i class="fas fa-cog"></i>
+                            <span class="_sidebar nav-text">Account</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            @endif
+
+            @if (auth()->user()->role === App\Enums\Roles::Blogger)
+
+            <div class="_sidebar nav-section blogger-section" style="display: none;">
+                <ul class="_sidebar nav-list">
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Profile">
+                            <i class="fas fa-user"></i>
+                            <span class="_sidebar nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="_sidebar nav-item">
+                        <a href="#" class="_sidebar nav-link" data-tooltip="Account">
+                            <i class="fas fa-cog"></i>
+                            <span class="_sidebar nav-text">Account</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            @endif
+
+            <div class="_sidebar sidebar-footer">
+                <div class="_sidebar external-links">
+                    <a href="https://github.com/laravel/livewire-starter-kit" target="_blank" class="_sidebar external-link">
+                        <i class="fab fa-github"></i>
+                        <span>Repository</span>
+                    </a>
+                    <a href="https://laravel.com/docs/starter-kits#livewire" target="_blank" class="_sidebar external-link">
+                        <i class="fas fa-book-open"></i>
+                        <span>Documentation</span>
+                    </a>
+                </div>
+
+                <div class="_sidebar user-profile d-none d-lg-block">
+                    <button class="_sidebar profile-btn" id="profileBtn">
+                        <div class="_sidebar profile-avatar"><h4>{{ auth()->user()->initials }}</h4></div>
+                        <div class="_sidebar profile-info">
+                            <div class="_sidebar profile-name"><h4>{{ auth()->user()->name }}</h4></div>
+                            <div class="_sidebar profile-email"><p>{{ auth()->user()->email }}</p></div>
+                        </div>
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <div class="_sidebar profile-dropdown" id="profileDropdown">
+                        <div class="_sidebar dropdown-item">
+                            <div class="_sidebar profile-avatar"><h4>{{ auth()->user()->initials }}</h4></div>
+                            <div class="_sidebar profile-info">
+                                <div class="_sidebar profile-name"><h4>{{ auth()->user()->name }}</h4></div>
+                                <div class="_sidebar profile-email"><p>{{ auth()->user()->email }}</p></div>
                             </div>
                         </div>
-                    </flux:menu.radio.group>
+                        <div class="_sidebar dropdown-divider"></div>
+                        <a href="#" class="_sidebar dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <div class="_sidebar dropdown-divider"></div>
+                        <button class="_sidebar dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Log Out</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-                    <flux:menu.separator />
+        <main class="main-content" id="mainContent">
 
-                    <flux:menu.radio.group>
-                        <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
-                    </flux:menu.radio.group>
+            {{ $slot }}
 
-                    <flux:menu.separator />
-
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
-                        @csrf
-                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
-                            {{ __('Log Out') }}
-                        </flux:menu.item>
-                    </form>
-                </flux:menu>
-            </flux:dropdown>
-        </flux:sidebar>
-
-        <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
-            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
-
-            <flux:spacer />
-
-            <flux:dropdown position="top" align="end">
-                <flux:profile
-                    :initials="auth()->user()->initials()"
-                    icon-trailing="chevron-down"
-                />
-
-                <flux:menu>
-                    <flux:menu.radio.group>
-                        <div class="p-0 text-sm font-normal">
-                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
-                                        {{ auth()->user()->initials() }}
-                                    </span>
-                                </span>
-
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <flux:menu.radio.group>
-                        <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
-                        @csrf
-                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
-                            {{ __('Log Out') }}
-                        </flux:menu.item>
-                    </form>
-                </flux:menu>
-            </flux:dropdown>
-        </flux:header>
-
-        {{ $slot }}
+        </main>
 
         @fluxScripts
+
+        <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>
