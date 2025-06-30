@@ -3,20 +3,6 @@
 /* browser setting ------------------------------------------------------------------------------*/
 /* browser setting ------------------------------------------------------------------------------*/
 
-.d._dashboard-header h1{
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-}
-.d._dashboard-header p{
-    font-size: 16px;
-    color: #666;
-}
-.d._dashboard-header p span{
-    text-transform: capitalize;
-}
-
-
 ::-webkit-scrollbar {
     width: 2px;
 }
@@ -45,7 +31,6 @@
     --hover-gray: #f1f3f5;
 }
 
-/* Sidebar Base Styles */
 ._sidebar.sidebar {
     position: fixed;
     top: 0;
@@ -518,7 +503,7 @@
 
 /* Main Content */
 .main-content {
-    margin-top: 0;
+    margin-top: -35px;
     margin-left: 200px;
     padding: 0 2rem;
     transition: margin-left 0.3s ease;
@@ -594,4 +579,360 @@
     .d-lg-block {
         display: none !important;
     }
+}
+
+
+
+
+/* DASHBOARD  MAIN CONTENTS .......................................... */
+/* DASHBOARD  MAIN CONTENTS .......................................... */
+/* DASHBOARD  MAIN CONTENTS .......................................... */
+
+.d_dashboard-nav {
+    background: var(--white);
+    border-bottom: .2px solid var(--border-gray);
+    position: sticky;
+    margin-right: -40px;
+    top: 0;
+    z-index: 900;
+}
+
+.d_nav-container {
+    max-width: 1400px;
+    margin: 0;
+}
+
+.d_nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem 0 .5rem 0;
+    border-bottom: .5px solid var(--border-gray);
+}
+
+.d_nav-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.d_nav-title h1 {
+    font-size: 25px;
+    font-weight: 500;
+    color: var(--primary-black);
+    letter-spacing: -0.025em;
+}
+
+.d_nav-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: .7rem;
+    color: var(--medium-gray);
+}
+
+.d_role-indicator {
+    background: var(--primary-black);
+    color: var(--white);
+    padding: 0.2rem 0.6rem;
+    font-size: 0.50rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 2px;
+}
+
+.d_nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.d_search-box {
+    position: relative;
+}
+
+.d_search-input {
+    width: 200px;
+    padding: 0.36rem .5rem;
+    border: 2px solid var(--border-gray);
+    background: var(--white);
+    font-size: 0.7rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.d_search-input:focus {
+    border-color: var(--primary-black);
+}
+
+.d_nav-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.d_nav-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-black);
+    background: var(--white);
+    color: var(--primary-black);
+    font-weight: 500;
+    font-size: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.d_nav-btn:hover {
+    background: var(--primary-black);
+    color: var(--white);
+}
+
+.d_nav-btn.primary {
+    background: var(--primary-black);
+    color: var(--white);
+}
+
+.d_nav-btn.primary:hover {
+    background: var(--secondary-black);
+}
+
+.d_notification-indicator {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border: .5px solid var(--primary-black);
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d_notification-indicator:hover {
+    background: var(--primary-black);
+}
+
+.d_notification-indicator:hover .d_bell-icon {
+    color: var(--white);
+}
+
+.d_notification-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--primary-black);
+    color: var(--white);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d_bell-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--primary-black);
+    transition: color 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .d_dashboard-nav {
+        margin-left: -46px;
+    }
+
+    .d_nav-container {
+        padding: 0 .5rem;
+    }
+
+    .d_nav-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        padding: 1rem 0 .5rem 0;
+    }
+
+    .d_nav-title h1 {
+        font-size: .7rem;
+    }
+
+    .d_nav-controls {
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+
+    .d_search-input {
+        width: 100%;
+        max-width: 175px;
+    }
+
+    .d_nav-actions {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .d_nav-title h1 {
+        font-size: .5rem;
+    }
+}
+
+.d_bell-icon {
+    fill: currentColor;
+}
+
+
+
+
+/* MODEL SECTION ...................................................... */
+/* MODEL SECTION ...................................................... */
+/* MODEL SECTION ...................................................... */
+
+.d_modal {
+    background: rgba(0,0,0,0.5);
+    padding-top: 50px;
+}
+
+.d_modal-dialog {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.d_modal-content {
+    border: none;
+    overflow: hidden;
+}
+
+.d_modal-header {
+    background: var(--primary-black);
+    color: var(--white);
+    border: none;
+    padding: 10px 13px;
+}
+
+.d_modal-title {
+    font-weight: 500;
+    margin: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.d_modal-close {
+    color: var(--white);
+    opacity: 1;
+    border: none;
+    background: none;
+    font-size: 1rem;
+}
+
+.d_modal-close:hover {
+    opacity: 1;
+    color: var(--white);
+}
+
+.d_modal-body {
+    padding: 15px;
+    background: var(--white);
+}
+
+.d_form-group {
+    margin-bottom: 10px;
+}
+
+.d_form-label {
+    font-weight: 500;
+    color: var(--primary-black);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.d_form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: .7px solid var(--border-gray);
+    transition: all 0.3s ease;
+    font-size: 12px;
+    background: var(--white);
+    color: var(--primary-black);
+}
+
+.d_form-control:focus {
+    outline: none;
+    border-color: var(--primary-black);
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+}
+
+.d_form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    padding-right: 40px;
+}
+
+.d_modal-footer {
+    padding: 10px 13px;
+    border-top: 1px solid var(--border-gray);
+    background: var(--light-gray);
+}
+
+.d_btn {
+    padding: 6px 9px;
+    font-weight: 400;
+    font-size: 11px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.d_btn-secondary {
+    background: var(--medium-gray);
+    color: var(--white);
+}
+
+.d_btn-secondary:hover {
+    background: #5a6268;
+    color: var(--white);
+}
+
+.d_btn-primary {
+    background: var(--primary-black);
+    color: var(--white);
+}
+
+.d_btn-primary:hover {
+    background: var(--secondary-black);
+    color: var(--white);
+}
+
+
+@media (max-width: 576px) {
+    .d_modal-body {
+        padding: 10px 12px;
+    }
+
+    .d_modal-footer {
+        padding: 12px;
+    }
+}
+
+.d_modal.fade .d_modal-dialog {
+    transform: translateY(-50px);
+    transition: transform 0.3s ease-out;
+}
+
+.d_modal.fade.show .d_modal-dialog {
+    transform: translateY(0);
 }
