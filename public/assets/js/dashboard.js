@@ -9,6 +9,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileProfileBtn = document.getElementById('mobileProfileBtn');
     const mobileProfileDropdown = document.getElementById('mobileProfileDropdown');
 
+    //--s
+    const searchInput = document.querySelector('.d_search-input');
+
+    searchInput.addEventListener('input', function() {
+        if (this.value.length > 0) {
+            console.log('Searching for:', this.value);
+        }
+    });
+
+    document.querySelector('.d_notification-indicator').addEventListener('click', function() {
+        console.log('Notifications clicked');
+    });
+
+    //--s
+
+    //--mdl
+
+
+    
+    //--mdl
+
     function isMobile() {
         return window.innerWidth <= 768;
     }
