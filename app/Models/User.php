@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use App\Enums\Roles;
 
@@ -62,6 +63,22 @@ class User extends Authenticatable
 
             default => route('login'),
         };
+    }
+
+    /**
+     * Get all shops owned by this user
+     */
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class);
+    }
+
+    /**
+     * Get active shops owned by this user
+     */
+    public function activeShops(): HasMany
+    {
+        return $this->shops()->where('is_active', true);
     }
 
      /**
