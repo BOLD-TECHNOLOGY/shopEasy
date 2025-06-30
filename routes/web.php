@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\ShopController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,6 +34,10 @@ Route::view('customer/dashboard', 'customer.dashboard')
     ->name('customer.dashboard');
 
 Route::middleware(['auth'])->group(function () {
+    //shops
+    Route::resource('shops', ShopController::class);
+
+
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
