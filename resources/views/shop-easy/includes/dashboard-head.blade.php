@@ -16,7 +16,7 @@
                 
                 <div class="d_nav-actions">
                     <a href="#" class="d_nav-btn">Settings</a>
-                    <a href="{{ route('shops.create') }}" class="d_nav-btn primary" data-bs-toggle="modal" data-bs-target="#d_newShopModal">
+                    <a href="" class="d_nav-btn primary">
                         New Shop
                     </a>
                 </div>
@@ -31,5 +31,3 @@
         </div>
     </div>
 </nav>
-
-@include ('shop-easy.includes.modals.shop.add-shop-modal')
