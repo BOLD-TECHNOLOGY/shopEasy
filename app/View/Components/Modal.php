@@ -8,12 +8,19 @@ use Illuminate\View\Component;
 
 class Modal extends Component
 {
+    public $id;
+    public $title;
+    public $size;
+    public $centered;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($id, $title, $size = 'modal-lg', $centered = true)
     {
-        //
+        $this->id = $id;
+        $this->title = $title;
+        $this->size = $size;
+        $this->centered = $centered ? 'modal-dialog-centered' : '';
     }
 
     /**
