@@ -45,4 +45,4 @@
     </div>
 @endif
 
-@include ('shop-easy.includes.modals.add-shop-model')
+@include ('shop-easy.shops._partials.add-shop-modal')
