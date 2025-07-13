@@ -104,15 +104,15 @@
                     <div class="_sidebar nav-section-title">Admin Controls</div>
                     <ul class="_sidebar nav-list">
                         <li class="_sidebar nav-item">
-                            <a href="#" class="_sidebar nav-link" data-tooltip="Products">
-                                <i class="fas fa-box"></i>
-                                <span class="_sidebar nav-text">Products</span>
+                            <a href="{{ route('shops.index') }}" class="_sidebar nav-link" data-tooltip="Shops">
+                                <i class="fas fa-shopping-basket"></i>
+                                <span class="_sidebar nav-text">My Shops</span>
                             </a>
                         </li>
                         <li class="_sidebar nav-item">
-                            <a href="#" class="_sidebar nav-link" data-tooltip="Subscribers">
-                                <i class="fas fa-users"></i>
-                                <span class="_sidebar nav-text">Subscribers</span>
+                            <a href="#" class="_sidebar nav-link" data-tooltip="Products">
+                                <i class="fas fa-box"></i>
+                                <span class="_sidebar nav-text">Products</span>
                             </a>
                         </li>
                         <li class="_sidebar nav-item">
@@ -430,7 +430,7 @@
         <main class="main-content" id="mainContent">
 
             {{ $slot }}
-            
+
         </main>
 
         @fluxScripts
