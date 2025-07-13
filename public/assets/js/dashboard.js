@@ -234,3 +234,124 @@ if (typeof logout === 'undefined') {
         }
     }
 }
+
+
+// Role switching functionality
+
+let currentRole = 'admin';
+const roleConfigs = {
+    admin: {
+        icon: 'fas fa-user-shield',
+        text: 'Admin',
+        navId: 'adminNav',
+        color: '#dc2626'
+    },
+    user: {
+        icon: 'fas fa-user',
+        text: 'User',
+        navId: 'userNav',
+        color: '#2563eb'
+    },
+    blogger: {
+        icon: 'fas fa-pen',
+        text: 'Blogger',
+        navId: 'bloggerNav',
+        color: '#7c3aed'
+    },
+    vendor: {
+        icon: 'fas fa-store',
+        text: 'Vendor',
+        navId: 'vendorNav',
+        color: '#059669'
+    }
+};
+
+function switchRole(role) {
+    if (role === currentRole) return;
+    
+    // Hide all navigation sections
+    Object.values(roleConfigs).forEach(config => {
+        const navElement = document.getElementById(config.navId);
+        if (navElement) {
+            navElement.style.display = 'none';
+        }
+    });
+
+    // Show selected role navigation
+    const selectedConfig = roleConfigs[role];
+    const selectedNavElement = document.getElementById(selectedConfig.navId);
+    if (selectedNavElement) {
+        selectedNavElement.style.display = 'block';
+    }
+
+    // Update role switcher button
+    document.getElementById('currentRoleIcon').className = selectedConfig.icon;
+    document.getElementById('currentRoleText').textContent = selectedConfig.text;
+
+    // Update active role option
+    document.querySelectorAll('.role-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    document.querySelector(`[data-role="${role}"]`).classList.add('active');
+
+    // Show/hide role indicator
+    const roleIndicator = document.getElementById('roleIndicator');
+    const activeRoleText = document.getElementById('activeRoleText');
+    if (role === 'admin') {
+        roleIndicator.style.display = 'none';
+    } else {
+        roleIndicator.style.display = 'block';
+        activeRoleText.textContent = selectedConfig.text;
+        roleIndicator.style.borderLeftColor = selectedConfig.color;
+    }
+
+    // Update current role
+    currentRole = role;
+
+    // Close dropdown
+    document.getElementById('roleSwitcherMenu').classList.remove('show');
+
+    // Optional: Trigger page content update
+    updatePageContent(role);
+}
+
+function updatePageContent(role) {
+    // This function can be used to update the main content area
+    // based on the selected role view
+    console.log(`Switched to ${role} view`);
+    
+    // You can add AJAX calls here to load role-specific content
+    // or trigger Livewire events if you're using Livewire
+}
+
+// Initialize role switcher - Only for admins
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSwitcherBtn = document.getElementById('roleSwitcherBtn');
+    const roleSwitcherMenu = document.getElementById('roleSwitcherMenu');
+
+    // Only initialize role switcher for admins
+    if (roleSwitcherBtn && roleSwitcherMenu) {
+        roleSwitcherBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            roleSwitcherMenu.classList.toggle('show');
+        });
+
+        // Handle role option clicks
+        document.querySelectorAll('.role-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const role = this.getAttribute('data-role');
+                switchRole(role);
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.role-switcher-dropdown')) {
+                roleSwitcherMenu.classList.remove('show');
+            }
+        });
+
+        // Initialize with admin view
+        switchRole('admin');
+    }
+});
