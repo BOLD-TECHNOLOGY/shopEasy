@@ -11,6 +11,7 @@ use App\Http\Middleware\Customer;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Vendor;
 use App\Http\Middleware\Blogger;
+use App\Http\Middleware\CheckShop;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,7 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
             "user" => UserMiddleware::class,
             "blogger" =>Blogger::class,
             "vendor" =>Vendor::class,
-            "customer" =>Customer::class
+            "customer" =>Customer::class,
+            "check.shop" => CheckShop::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
