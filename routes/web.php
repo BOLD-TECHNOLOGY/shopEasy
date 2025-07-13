@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -31,6 +33,26 @@ Route::view('vendor/dashboard', 'vendor.dashboard')
 Route::view('customer/dashboard', 'customer.dashboard')
     ->middleware(['auth', 'verified' , 'customer'])
     ->name('customer.dashboard');
+
+
+// shop routes
+Route::middleware(['auth'])->prefix('shops')->name('shops.')->group(function () {
+    Route::get('/', [ShopController::class, 'index'])->name('index');
+    Route::post('/', [ShopController::class, 'store'])->name('store');
+    Route::get('/{shop}', [ShopController::class, 'show'])->name('show'); // ✅ FIXED HERE
+    Route::put('/{shop}', [ShopController::class, 'update'])->name('update');
+    Route::delete('/{shop}', [ShopController::class, 'destroy'])->name('destroy');
+});
+
+// product routes
+Route::prefix('products')->middleware('auth')->name('products.')->group(function () {
+    Route::post('/', [ProductController::class, 'store'])->name('store');
+    Route::put('/{product}', [ProductController::class, 'update'])->name('update');
+    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+});
+
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
