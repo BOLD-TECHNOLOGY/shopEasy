@@ -16,7 +16,7 @@
                 
                 <div class="d_nav-actions">
                     <a href="#" class="d_nav-btn">Settings</a>
-                    <a href="" class="d_nav-btn primary">
+                    <a href="" class="d_nav-btn primary" data-bs-toggle="modal" data-bs-target="#addShopModal">
                         New Shop
                     </a>
                 </div>
@@ -31,3 +31,18 @@
         </div>
     </div>
 </nav>
+
+<!-- Admin Role Indicator -->
+@if (auth()->user()->role === App\Enums\Roles::Admin)
+    <div class="_sidebar role-indicator" id="roleIndicator" style="display: none;">
+        <div class="_sidebar role-indicator-content">
+            <i class="fas fa-eye"></i>
+            <span>Currently viewing as: <strong id="activeRoleText">Admin</strong></span>
+            <button class="_sidebar role-indicator-close" onclick="switchRole('admin')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+@endif
+
+@include ('shop-easy.includes.modals.add-shop-model')
