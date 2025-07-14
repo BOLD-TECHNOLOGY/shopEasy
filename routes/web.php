@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AnalyticsController;
 use Illuminate\Support\Facades\Route;
+
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
@@ -39,17 +43,38 @@ Route::view('customer/dashboard', 'customer.dashboard')
 Route::middleware(['auth'])->prefix('shops')->name('shops.')->group(function () {
     Route::get('/', [ShopController::class, 'index'])->name('index');
     Route::post('/', [ShopController::class, 'store'])->name('store');
-    Route::get('/{shop}', [ShopController::class, 'show'])->name('show'); // ✅ FIXED HERE
+    Route::get('/{shop}', [ShopController::class, 'show'])->name('show');
     Route::put('/{shop}', [ShopController::class, 'update'])->name('update');
     Route::delete('/{shop}', [ShopController::class, 'destroy'])->name('destroy');
 });
 
 // product routes
 Route::prefix('products')->middleware('auth')->name('products.')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::post('/', [ProductController::class, 'store'])->name('store');
     Route::put('/{product}', [ProductController::class, 'update'])->name('update');
     Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
 });
+
+
+// admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+Route::prefix('admin/posts')->middleware(['auth', 'admin'])->name('admin.posts.')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::post('/', [PostController::class, 'store'])->name('store');
+    Route::put('/{post}', [PostController::class, 'update'])->name('update');
+    Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
+});
+
+
 
 
 
