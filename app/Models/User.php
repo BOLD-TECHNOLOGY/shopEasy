@@ -81,6 +81,13 @@ class User extends Authenticatable
         return $this->shops()->where('is_active', true);
     }
 
+
+    public function isRole(Roles $role): bool
+    {
+        return $this->role === $role->value;
+    }
+
+    
      /**
      * Get the user's initials.
      *
