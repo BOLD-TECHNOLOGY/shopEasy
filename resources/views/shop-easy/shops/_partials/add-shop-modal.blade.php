@@ -17,3 +17,4 @@
     
 </x-modal>
 
+<script src="{{ asset('assets/js/modals.js') }}"></script>
