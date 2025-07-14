@@ -110,25 +110,25 @@
                             </a>
                         </li>
                         <li class="_sidebar nav-item">
-                            <a href="#" class="_sidebar nav-link" data-tooltip="Products">
+                            <a href="{{ route('products.index') }}" class="_sidebar nav-link" data-tooltip="Products">
                                 <i class="fas fa-box"></i>
                                 <span class="_sidebar nav-text">Products</span>
                             </a>
                         </li>
                         <li class="_sidebar nav-item">
-                            <a href="#" class="_sidebar nav-link" data-tooltip="Users">
+                            <a href="{{ route('admin.users.index') }}" class="_sidebar nav-link" data-tooltip="Users">
                                 <i class="fas fa-user-friends"></i>
                                 <span class="_sidebar nav-text">Users</span>
                             </a>
                         </li>
                         <li class="_sidebar nav-item">
-                            <a href="#" class="_sidebar nav-link" data-tooltip="Posts">
+                            <a href="{{ route('admin.posts.index') }}" class="_sidebar nav-link" data-tooltip="Posts">
                                 <i class="fas fa-file-alt"></i>
                                 <span class="_sidebar nav-text">Posts</span>
                             </a>
                         </li>
                         <li class="_sidebar nav-item">
-                            <a href="#" class="_sidebar nav-link" data-tooltip="Analytics">
+                            <a href="{{ route('admin.analytics') }}" class="_sidebar nav-link" data-tooltip="Analytics">
                                 <i class="fas fa-chart-line"></i>
                                 <span class="_sidebar nav-text">Analytics</span>
                             </a>
