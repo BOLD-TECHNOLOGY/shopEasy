@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('eliteShop | Dashboard')">
+<x-layouts.app :title="__('eliteShop | Shops')">
     @include ('shop-easy.includes.dashboard-head')
 
     <div class="container">
