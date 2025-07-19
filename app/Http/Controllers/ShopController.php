@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+use Illuminate\Support\Str;
 
 class ShopController extends Controller
 {
@@ -14,10 +15,10 @@ class ShopController extends Controller
     {
         $user = auth()->user();
 
-        // Get all shops belonging to the user
+        // Get all shops belonging to the user, ordered by created_at descending by default
         $shops = $user->shops()->latest()->get();
 
-        // Define sortable fields
+        // Define sortable fields for products
         $sortField = request('sort', 'created_at');
         $validSorts = ['name', 'created_at', 'category'];
 
@@ -26,7 +27,7 @@ class ShopController extends Controller
             $sortField = 'created_at';
         }
 
-        // Fetch paginated products from all user's shops, with shop relation
+        // Fetch paginated products from all user's shops, eager loading shop relation
         $products = \App\Models\Product::whereIn('shop_id', $shops->pluck('id'))
             ->with('shop')
             ->orderBy($sortField, 'desc')
@@ -34,7 +35,6 @@ class ShopController extends Controller
 
         return view('shop-easy.shops.index', compact('shops', 'products'));
     }
-
 
     public function store(Request $request)
     {
@@ -44,6 +44,10 @@ class ShopController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        // Generate slug from name
+        $validated['slug'] = Str::slug($validated['name']);
+
+        // Create shop for authenticated user
         auth()->user()->shops()->create($validated);
 
         return redirect()->back()->with('success', 'Shop created!');
@@ -51,13 +55,18 @@ class ShopController extends Controller
 
     public function update(Request $request, Shop $shop)
     {
-        $this->authorize('update', $shop); // optional
+        $this->authorize('update', $shop); // optional authorization check
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
+
+        // Update slug if name changed
+        if ($shop->name !== $validated['name']) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
 
         $shop->update($validated);
 
@@ -76,10 +85,9 @@ class ShopController extends Controller
         return view('shop-easy.shops.show', compact('shop', 'products'));
     }
 
-
     public function destroy(Shop $shop)
     {
-        $this->authorize('delete', $shop); // optional
+        $this->authorize('delete', $shop); // optional authorization check
 
         $shop->delete();
 
