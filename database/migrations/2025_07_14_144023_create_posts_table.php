@@ -13,12 +13,22 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // author
+
             $table->string('title');
-            $table->text('content');
+            $table->string('slug')->unique(); // URL-friendly title
+            $table->string('image')->nullable(); // featured image
+            $table->text('content'); // this can act as a description or full post
+
+            $table->boolean('is_published')->default(false); // control visibility
+            $table->timestamp('published_at')->nullable(); // for future scheduling
+
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.
