@@ -25,8 +25,45 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'role', // e.g., admin, seller, buyer
+
+        'username',
+        'phone',
+        'profile_picture',
+        'gender',
+        'birthdate',
+
+        'country',
+        'state',
+        'city',
+        'address',
+        'zip_code',
+
+        'currency',
+        'language',
+        'company_name',
+        'tax_id',
+        'business_type', // e.g., sole proprietor, partnership, etc.
+        'website',
+        'account_status', // active, suspended, pending
+        'is_verified', // boolean for email/phone verification
+
+        'preferred_payment_method',
+        'preferred_shipping_method',
+        'receive_newsletter',
+
+        'last_login_at',
+        'last_login_ip',
+        'two_factor_enabled',
+
+        'google_id',
+        'facebook_id',
+        'twitter_id',
+        'linkedin_id',
+        'github_id',
+        'bio', // short biography or description
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,6 +109,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Shop::class);
     }
+
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
+    }
+
 
     /**
      * Get active shops owned by this user
