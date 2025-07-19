@@ -52,8 +52,8 @@ Route::middleware(['auth'])->prefix('shops')->name('shops.')->group(function () 
 Route::prefix('products')->middleware('auth')->name('products.')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::post('/', [ProductController::class, 'store'])->name('store');
-    Route::put('/{product}', [ProductController::class, 'update'])->name('update');
-    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+    Route::put('/{product}', [ProductController::class, 'update'])->name('products');
+    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('products');
 });
 
 

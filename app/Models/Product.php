@@ -18,32 +18,26 @@ class Product extends Model
         'sale_price',
         'on_sale',
         'stock',
-        'in_stock',
         'sku',
         'thumbnail',
         'images',
-        'category_id',
-        'brand_id',
-        'tags',
         'color',
         'size',
-        'specifications',
-        'average_rating',
-        'reviews_count',
-        'views',
-        'is_active',
-        'is_featured',
+        'category',
+        'tags',
         'meta_title',
         'meta_description',
+        'is_active',
+        'is_featured',
     ];
 
     protected $casts = [
         'on_sale' => 'boolean',
-        'in_stock' => 'boolean',
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
         'images' => 'array', // casts JSON to array
-        'specifications' => 'array',
+        'price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
     ];
 
     // Relationships

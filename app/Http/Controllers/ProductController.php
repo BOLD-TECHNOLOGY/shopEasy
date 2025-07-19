@@ -12,17 +12,11 @@ class ProductController extends Controller
 {
     use AuthorizesRequests;
 
-    /**
-     * Display a listing of the products for the authenticated user's shops.
-     */
     public function index()
     {
-        $userShopIds = auth()->user()->shops()->pluck('id');
-
-        $products = Product::with('shop')
-            ->whereIn('shop_id', $userShopIds)
-            ->latest()
-            ->paginate(10);
+        $products = Product::whereHas('shop', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->paginate(10);
 
         return view('shop-easy.products.index', compact('products'));
     }
@@ -59,7 +53,6 @@ class ProductController extends Controller
             abort(403);
         }
 
-        // Generate slug from name
         $validated['slug'] = Str::slug($validated['name']);
 
         $shop->products()->create($validated);
@@ -98,7 +91,6 @@ class ProductController extends Controller
             'meta_description' => 'nullable|string|max:500',
         ]);
 
-        // Update slug if name changed
         if ($product->name !== $validated['name']) {
             $validated['slug'] = Str::slug($validated['name']);
         }

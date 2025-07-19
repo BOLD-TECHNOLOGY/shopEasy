@@ -10,11 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-        {
-            Schema::create('products', function (Blueprint $table) {
+    {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
 
+            // Relationships
             $table->foreignId('shop_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
 
             // Basic Info
             $table->string('name');
@@ -23,27 +26,26 @@ return new class extends Migration
 
             // Pricing
             $table->decimal('price', 10, 2);
-            $table->decimal('sale_price', 10, 2)->nullable(); // For discounts
+            $table->decimal('sale_price', 10, 2)->nullable();
             $table->boolean('on_sale')->default(false);
 
             // Inventory
             $table->integer('stock')->default(0);
             $table->boolean('in_stock')->default(true);
-            $table->string('sku')->nullable()->unique(); // Stock Keeping Unit
+            $table->string('sku')->nullable()->unique();
 
             // Media
             $table->string('thumbnail')->nullable();
             $table->json('images')->nullable();
 
             // Categorization
-            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('tags')->nullable(); // comma-separated or use pivot table
+            $table->string('category')->nullable(); // In case category name is directly stored
+            $table->string('tags')->nullable(); // comma-separated tags
 
             // Attributes
             $table->string('color')->nullable();
             $table->string('size')->nullable();
-            $table->json('specifications')->nullable(); // additional product specs
+            $table->json('specifications')->nullable(); // JSON for specs like weight, material, etc.
 
             // Ratings & Engagement
             $table->double('average_rating')->default(0);
@@ -56,12 +58,11 @@ return new class extends Migration
 
             // SEO
             $table->string('meta_title')->nullable();
-            $table->string('meta_description')->nullable();
+            $table->text('meta_description')->nullable();
 
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
