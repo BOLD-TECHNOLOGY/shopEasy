@@ -43,7 +43,6 @@ class Shop extends Model
         'products_count' => 'integer',
     ];
 
-    // Relationships
 
     public function user()
     {
