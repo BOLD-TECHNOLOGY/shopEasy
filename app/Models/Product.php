@@ -18,30 +18,35 @@ class Product extends Model
         'sale_price',
         'on_sale',
         'stock',
+        'in_stock',        
         'sku',
         'thumbnail',
         'images',
         'color',
         'size',
         'category',
+        'category_id',    
+        'brand_id',        
         'tags',
+        'specifications', 
         'meta_title',
         'meta_description',
         'is_active',
         'is_featured',
     ];
 
-    protected $casts = [
+     protected $casts = [
         'on_sale' => 'boolean',
+        'in_stock' => 'boolean', 
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
-        'images' => 'array', // casts JSON to array
+        'images' => 'array',
+        'specifications' => 'array',
         'price' => 'decimal:2',
         'sale_price' => 'decimal:2',
     ];
 
-    // Relationships
-    public function shop()
+     public function shop()
     {
         return $this->belongsTo(Shop::class);
     }
@@ -61,7 +66,6 @@ class Product extends Model
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 
-    // Check if a product is favorited by a specific user
     public function isFavoritedBy(User $user)
     {
         return $this->favoritedByUsers()->where('user_id', $user->id)->exists();
