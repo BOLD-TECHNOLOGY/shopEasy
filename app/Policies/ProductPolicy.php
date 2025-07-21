@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Shop;
 use Illuminate\Auth\Access\Response;
 
 class ProductPolicy
@@ -13,7 +14,7 @@ class ProductPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true; // Changed from false - users should be able to view their products
     }
 
     /**
@@ -21,15 +22,17 @@ class ProductPolicy
      */
     public function view(User $user, Product $product): bool
     {
-        return false;
+        return $user->id === $product->shop->user_id;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Shop $shop = null): bool
     {
-        return false;
+        // Fixed: $shop was undefined in original code
+        if (!$shop) return true; // Allow if no specific shop provided
+        return $user->id === $shop->user_id;
     }
 
     /**
@@ -53,7 +56,7 @@ class ProductPolicy
      */
     public function restore(User $user, Product $product): bool
     {
-        return false;
+        return $user->id === $product->shop->user_id;
     }
 
     /**
@@ -61,6 +64,6 @@ class ProductPolicy
      */
     public function forceDelete(User $user, Product $product): bool
     {
-        return false;
+        return $user->id === $product->shop->user_id;
     }
 }
